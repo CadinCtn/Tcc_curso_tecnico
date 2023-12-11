@@ -1,0 +1,68 @@
+CREATE DATABASE bd_tcc;
+USE bd_tcc;
+
+CREATE TABLE usuarios (
+  id int NOT NULL AUTO_INCREMENT,
+  login varchar(50) NOT NULL,
+  senha varchar(15) NOT NULL,
+  permissao varchar(20) DEFAULT NULL,
+  PRIMARY KEY (id)
+); 
+
+CREATE TABLE produtos (
+  produto varchar(50) NOT NULL,
+  PRIMARY KEY (produto)
+); 
+
+
+CREATE TABLE estoque (
+  id int NOT NULL AUTO_INCREMENT,
+  categoria varchar(50) NOT NULL,
+  lonas int NOT NULL,
+  largura float(4,2) NOT NULL,
+  metragem float(5,2) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (categoria) REFERENCES produtos (produto)
+); 
+
+
+CREATE TABLE ordem_producao (
+  id int NOT NULL AUTO_INCREMENT,
+  categoria varchar(50) NOT NULL,
+  EE int NOT NULL,
+  largura_tecido float(4,2) NOT NULL,
+  metragem_tecido float(5,2) NOT NULL,
+  lonas int NOT NULL,
+  setor varchar(20) DEFAULT NULL,
+  observacao varchar(500) DEFAULT NULL,
+  espessura varchar(50) DEFAULT NULL,
+  met_extra float(4,2) DEFAULT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (categoria) REFERENCES produtos (produto)
+); 
+
+
+CREATE TABLE pedidos (
+  id int NOT NULL,
+  nome_cliente varchar(255) NOT NULL,
+  data_fechamento varchar(10) DEFAULT NULL,
+  data_embarque varchar(10) DEFAULT NULL,
+  observacao varchar(500) DEFAULT NULL,
+  PRIMARY KEY (id)
+); 
+
+
+CREATE TABLE pedidos_op (
+  id_op int NOT NULL,
+  id int NOT NULL,
+  nome_cliente varchar(255) NOT NULL,
+  largura float(4,2) DEFAULT NULL,
+  metragem float(5,2) DEFAULT NULL,
+  vinc int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (vinc),
+  FOREIGN KEY (id_op) REFERENCES ordem_producao (id),
+  foreign key (id) REFERENCES pedidos(id)
+); 
+
+
+insert into usuarios (login,senha,permissao) values ("cris","2404","ADM")
