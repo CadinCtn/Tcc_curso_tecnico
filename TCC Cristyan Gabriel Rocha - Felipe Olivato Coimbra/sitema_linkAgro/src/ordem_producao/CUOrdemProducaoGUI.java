@@ -247,6 +247,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tab_pedidosOp.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane2.setViewportView(tab_pedidosOp);
         if (tab_pedidosOp.getColumnModel().getColumnCount() > 0) {
             tab_pedidosOp.getColumnModel().getColumn(4).setMinWidth(40);

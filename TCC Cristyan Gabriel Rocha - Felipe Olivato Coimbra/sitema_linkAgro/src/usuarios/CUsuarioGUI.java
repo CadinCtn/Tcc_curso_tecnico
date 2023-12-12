@@ -93,6 +93,7 @@ public class CUsuarioGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tab_usuarios.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane5.setViewportView(tab_usuarios);
 
         btn_newUser.setBackground(new java.awt.Color(255, 255, 255));

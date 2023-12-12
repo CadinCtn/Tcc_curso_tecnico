@@ -82,6 +82,7 @@ public class CProdutosGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tab_produtos.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane5.setViewportView(tab_produtos);
 
         btn_newProduct.setBackground(new java.awt.Color(255, 255, 255));

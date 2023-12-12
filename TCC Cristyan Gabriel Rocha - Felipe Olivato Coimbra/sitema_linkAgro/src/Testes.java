@@ -1,16 +1,15 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 
 public class Testes extends JFrame {
-    private JTable table;
 
     public Testes() {
-        setTitle("Selecionar Linha por Idade");
+        setTitle("Tabela com Cores");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Cria um modelo de tabela simples com dados de exemplo
+        // Cria um modelo de tabela editável
         DefaultTableModel model = new DefaultTableModel(
                 new Object[][]{
                         {"1", "John Doe", "30"},
@@ -22,17 +21,11 @@ public class Testes extends JFrame {
         );
 
         // Cria a tabela com o modelo
-        table = new JTable(model);
+        JTable table = new JTable(model);
 
-        
-        
-        
-        
-        
-        // Seleciona automaticamente a linha com idade superior a 37
-        selecionarLinhaPorIdade(25);
+        // Define o renderizador de célula personalizado
+        table.getColumnModel().getColumn(2).setCellRenderer(new IdadeCellRenderer());
 
-        
         // Adiciona a tabela a um painel de rolagem e adiciona o painel ao quadro
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane);
@@ -41,24 +34,31 @@ public class Testes extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void selecionarLinhaPorIdade(int id) {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        
-        for (int i = 0; i < model.getRowCount(); i++) {
-            int idade = Integer.parseInt((String) model.getValueAt(i, 2)); // Coluna de idade
+    // Renderizador de célula personalizado para a coluna de Idade
+    private class IdadeCellRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(
+                JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-            if (idade == id) {
-                table.getSelectionModel().setSelectionInterval(i, i);
-                break;
+            // Obtém o valor da célula na coluna de Idade
+            String idadeStr = table.getValueAt(row, column).toString();
+            int idade = Integer.parseInt(idadeStr);
+
+            // Define a cor da célula com base na idade
+            if (idade > 35) {
+                //component.setBackground(Color.RED);
+                component.setForeground(Color.GREEN);
+            } else {
+                // Restaura as cores padrão se necessário
+                component.setBackground(table.getBackground());
+                component.setForeground(table.getForeground());
             }
+
+            return component;
         }
     }
 
-    
-    
-    
-    
-    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

@@ -2,6 +2,9 @@ package estoque;
 
 import produtos.ProdutoDAO;
 import factory.ConnectionFactory;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +17,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import produtos.Produto;
 
 
@@ -241,7 +246,6 @@ public class EstoqueDAO {
         
         
         String sql = "SELECT * FROM estoque WHERE " + categoria +" lonas " + lonas + " and largura >= " + largura + " and metragem >= " + metragem;
-        System.out.println(sql);
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             
@@ -275,5 +279,37 @@ public class EstoqueDAO {
     }
     
 
+    
+    
+    
+     
+
+    // Método para aplicar a lógica de cor com base no valor da célula
+    public void paintCat(JTable table, int columnIndex) {
+        table.getColumnModel().getColumn(columnIndex).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(
+                    JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                // Obtém o valor da célula
+                String celula = table.getValueAt(row, column).toString();
+                String categoria = celula;
+                // Define a cor da célula com base no valor
+                if ("Agrothor".equals(categoria)) {
+                    component.setForeground(Color.GREEN); // Define a cor do texto se necessário
+                } else if("Agropem".equals(categoria)){
+                    component.setForeground(Color.ORANGE);
+                } else if("Primethor".equals(categoria)){
+                    component.setForeground(Color.RED);
+                } else {
+                    component.setForeground(table.getForeground());
+                }
+                component.setFont(component.getFont().deriveFont(Font.BOLD));
+                return component;
+            }
+        });
+    }
+    
     
 }

@@ -139,6 +139,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tab_ordemProducao.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane1.setViewportView(tab_ordemProducao);
 
         button_update.setBackground(new java.awt.Color(255, 255, 255));
@@ -188,6 +189,7 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tab_rPedidosOp.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane2.setViewportView(tab_rPedidosOp);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N

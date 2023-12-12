@@ -108,6 +108,7 @@ public class CPedidoOpGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tab_pedidos.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane5.setViewportView(tab_pedidos);
 
         button_return.setBackground(new java.awt.Color(255, 255, 255));

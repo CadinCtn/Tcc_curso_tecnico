@@ -88,6 +88,7 @@ public class CPedidosGUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tab_pedidos.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane5.setViewportView(tab_pedidos);
         if (tab_pedidos.getColumnModel().getColumnCount() > 0) {
             tab_pedidos.getColumnModel().getColumn(0).setMinWidth(100);

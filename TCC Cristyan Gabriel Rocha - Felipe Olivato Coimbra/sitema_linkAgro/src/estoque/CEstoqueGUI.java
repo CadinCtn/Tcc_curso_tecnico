@@ -64,6 +64,7 @@ public class CEstoqueGUI extends javax.swing.JFrame {
             Object[] line = {estoque.getId(), estoque.getCategoria(), estoque.getLonas(), estoque.getLargura(), estoque.getMetragem()};
             modelo.addRow(line);
         }
+        estoquedao.paintCat(tab_estoque, 1);
         
     }
     
@@ -90,7 +91,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
             categoria = " ";
             
             } else {
-                System.out.println(categoria);
                 categoria = " categoria = '" + categoria + "' and";
             }
             //lonas
@@ -98,7 +98,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
 
                 lonas = "> 0";
             } else {
-                System.out.println(lonas);
                 lonas = "= " + lonas;
             }
             //largura
@@ -176,7 +175,7 @@ public class CEstoqueGUI extends javax.swing.JFrame {
             }
         });
         tab_estoque.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tab_estoque.setSelectionForeground(new java.awt.Color(51, 51, 51));
+        tab_estoque.setSelectionBackground(new java.awt.Color(153, 153, 153));
         jScrollPane5.setViewportView(tab_estoque);
 
         add_estoque.setBackground(new java.awt.Color(255, 255, 255));
