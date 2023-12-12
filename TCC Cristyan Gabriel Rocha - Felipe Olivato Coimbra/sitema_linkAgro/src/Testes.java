@@ -1,64 +1,59 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Testes extends JFrame {
+    private JButton chooseColorButton;
 
     public Testes() {
-        setTitle("Tabela com Cores");
+        setTitle("Exemplo JColorChooser");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Cria um modelo de tabela editável
-        DefaultTableModel model = new DefaultTableModel(
-                new Object[][]{
-                        {"1", "John Doe", "30"},
-                        {"2", "Jane Doe", "25"},
-                        {"3", "Bob Smith", "40"},
-                        {"4", "Alice Johnson", "35"}
-                },
-                new String[]{"ID", "Nome", "Idade"}
-        );
+        chooseColorButton = new JButton("Escolher Cor");
+        chooseColorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                escolherCor();
+            }
+        });
 
-        // Cria a tabela com o modelo
-        JTable table = new JTable(model);
+        JPanel panel = new JPanel();
+        panel.add(chooseColorButton);
 
-        // Define o renderizador de célula personalizado
-        table.getColumnModel().getColumn(2).setCellRenderer(new IdadeCellRenderer());
-
-        // Adiciona a tabela a um painel de rolagem e adiciona o painel ao quadro
-        JScrollPane scrollPane = new JScrollPane(table);
-        add(scrollPane);
-
-        setSize(400, 300);
+        add(panel);
+        setSize(300, 200);
         setLocationRelativeTo(null);
     }
 
-    // Renderizador de célula personalizado para a coluna de Idade
-    private class IdadeCellRenderer extends DefaultTableCellRenderer {
-        @Override
-        public Component getTableCellRendererComponent(
-                JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-            // Obtém o valor da célula na coluna de Idade
-            String idadeStr = table.getValueAt(row, column).toString();
-            int idade = Integer.parseInt(idadeStr);
-
-            // Define a cor da célula com base na idade
-            if (idade > 35) {
-                //component.setBackground(Color.RED);
-                component.setForeground(Color.GREEN);
-            } else {
-                // Restaura as cores padrão se necessário
-                component.setBackground(table.getBackground());
-                component.setForeground(table.getForeground());
-            }
-
-            return component;
+    private void escolherCor() {
+        // Abre o JColorChooser
+        Color cor = JColorChooser.showDialog(this, "Escolher Cor", Color.BLACK);
+            String corEscolhida = String.valueOf(cor);
+        // Exibe a cor escolhida (pode ser null se o usuário cancelar)
+        if (corEscolhida != null) {
+           System.out.print(stringParaCor(corEscolhida));
         }
     }
 
+     private static Color stringParaCor(String corString) {
+        try {
+            // Remove os caracteres não numéricos da string
+            corString = corString.replaceAll("\\D+", "");
+
+            // Divide os valores R, G e B
+            int r = Integer.parseInt(corString.substring(0, 3));
+            int g = Integer.parseInt(corString.substring(3, 6));
+            int b = Integer.parseInt(corString.substring(6, 9));
+
+            // Cria e retorna o objeto Color
+            return new Color(r, g, b);
+        } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
+            // Trata erros de formatação ou índices inválidos
+            return null;
+        }
+    }
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override

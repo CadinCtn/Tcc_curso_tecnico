@@ -132,7 +132,6 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         label_lonas = new javax.swing.JLabel();
         label_obs = new javax.swing.JLabel();
         box_category = new javax.swing.JComboBox<>();
-        button_addCategory = new javax.swing.JButton();
         field_length = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         field_observation = new javax.swing.JTextArea();
@@ -182,14 +181,6 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         box_category.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 box_categoryActionPerformed(evt);
-            }
-        });
-
-        button_addCategory.setBackground(new java.awt.Color(255, 255, 255));
-        button_addCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar.png"))); // NOI18N
-        button_addCategory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_addCategoryActionPerformed(evt);
             }
         });
 
@@ -328,12 +319,9 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(label_category)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(button_addCategory))
-                                                            .addComponent(box_category, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                            .addComponent(label_category, javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(box_category, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addGap(18, 18, 18)
                                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                             .addComponent(label_ee)
@@ -396,7 +384,6 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                     .addComponent(label_ee)
                     .addComponent(label_width)
                     .addComponent(label_length)
-                    .addComponent(button_addCategory)
                     .addComponent(label_lonas)
                     .addComponent(label_obs)
                     .addComponent(label_lonas1)
@@ -417,7 +404,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                         .addComponent(label_sector)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(box_sector, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(button_confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -491,20 +478,6 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     private void box_eeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box_eeActionPerformed
         
     }//GEN-LAST:event_box_eeActionPerformed
-
-    //Adicionar novo produto
-    private void button_addCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addCategoryActionPerformed
-        ProdutoDAO ordemproducaodao = new ProdutoDAO();
-        String produto = JOptionPane.showInputDialog(null,"Digite o nome do novo produto a ser adicionado");
-
-        if(produto.equals("")){
-            JOptionPane.showMessageDialog(null, "Nome inválido");
-        } else {
-            ordemproducaodao.adicionaProduto(produto);
-            categoriaBox();
-        }
-
-    }//GEN-LAST:event_button_addCategoryActionPerformed
 
     private void box_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box_categoryActionPerformed
      
@@ -598,7 +571,6 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> box_largTecido;
     private javax.swing.JComboBox<String> box_lonas;
     private javax.swing.JComboBox<String> box_sector;
-    private javax.swing.JButton button_addCategory;
     private javax.swing.JButton button_addPedOp;
     private javax.swing.JButton button_confirm;
     private javax.swing.JButton button_editPedOp;

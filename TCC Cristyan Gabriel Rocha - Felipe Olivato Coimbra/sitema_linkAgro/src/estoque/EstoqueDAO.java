@@ -233,6 +233,7 @@ public class EstoqueDAO {
         }
         catch(Exception e){
             e.printStackTrace();
+            
         }
         
     }
@@ -280,36 +281,6 @@ public class EstoqueDAO {
     
 
     
-    
-    
-     
-
-    // Método para aplicar a lógica de cor com base no valor da célula
-    public void paintCat(JTable table, int columnIndex) {
-        table.getColumnModel().getColumn(columnIndex).setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(
-                    JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-                // Obtém o valor da célula
-                String celula = table.getValueAt(row, column).toString();
-                String categoria = celula;
-                // Define a cor da célula com base no valor
-                if ("Agrothor".equals(categoria)) {
-                    component.setForeground(Color.GREEN); // Define a cor do texto se necessário
-                } else if("Agropem".equals(categoria)){
-                    component.setForeground(Color.ORANGE);
-                } else if("Primethor".equals(categoria)){
-                    component.setForeground(Color.RED);
-                } else {
-                    component.setForeground(table.getForeground());
-                }
-                component.setFont(component.getFont().deriveFont(Font.BOLD));
-                return component;
-            }
-        });
-    }
     
     
 }

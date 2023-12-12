@@ -64,7 +64,9 @@ public class CEstoqueGUI extends javax.swing.JFrame {
             Object[] line = {estoque.getId(), estoque.getCategoria(), estoque.getLonas(), estoque.getLargura(), estoque.getMetragem()};
             modelo.addRow(line);
         }
-        estoquedao.paintCat(tab_estoque, 1);
+        
+        ProdutoDAO produtodao = new ProdutoDAO();
+        produtodao.paintCat(tab_estoque, 1);
         
     }
     

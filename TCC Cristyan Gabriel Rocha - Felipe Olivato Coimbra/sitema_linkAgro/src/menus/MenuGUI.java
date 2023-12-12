@@ -3,10 +3,11 @@ package menus;
 import estoque.CEstoqueGUI;
 import ordem_producao.ROrdemProducaoGUI;
 import ordem_producao.ControllerOP;
-import produtos.CProdutosGUI;
+import produtos.ProdutosGUI;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import pedidos.CPedidosGUI;
+import produtos.Produto;
 import usuarios.CUsuarioGUI;
 import usuarios.Controller;
 import usuarios.LoginGUI;
@@ -160,13 +161,14 @@ public class MenuGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_submenu_newopActionPerformed
 
     private void submenu_newproductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newproductActionPerformed
-        JFrame window = new CProdutosGUI();
+        ProdutosGUI window = new ProdutosGUI();
         window.setVisible(true);
         window.setLocationRelativeTo(null);
+        Produto.setProdutosgui(window);
     }//GEN-LAST:event_submenu_newproductActionPerformed
 
     private void submenu_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_estoqueActionPerformed
-        JFrame window = new CEstoqueGUI();
+        CEstoqueGUI window = new CEstoqueGUI();
         window.setVisible(true);
         window.setExtendedState(MAXIMIZED_BOTH);
         dispose();

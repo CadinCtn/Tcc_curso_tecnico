@@ -14,6 +14,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import menus.MenuGUI;
+import produtos.ProdutoDAO;
 
 /**
  *
@@ -47,6 +48,11 @@ public class ROrdemProducaoGUI extends javax.swing.JFrame {
             modelo.addRow(line);
             
         }
+        
+        
+        ProdutoDAO produtodao = new ProdutoDAO();
+        produtodao.paintCat(tab_ordemProducao, 1);
+        
         
     }
     
