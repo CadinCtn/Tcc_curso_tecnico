@@ -41,16 +41,24 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     
     
     //Adicionando linha a tabela tab_pedidosOp e no array
-    public void addRow(PedidoOp pedidoop){
+    public void addRow(PedidoOp pedidoop, boolean edit, int indexRow){
+        DefaultTableModel modelo = (DefaultTableModel) tab_pedidosOp.getModel();
+        if(edit){
+            modelo.removeRow(indexRow);
+            Object[] line = {pedidoop.getId(),pedidoop.getNome_cliente(),pedidoop.getLargura(),pedidoop.getMetragem(),pedidoop.getCod()};
+            modelo.addRow(line);
+       } else {
+            //adiciona na tabela
+            Object[] line = {pedidoop.getId(),pedidoop.getNome_cliente(),pedidoop.getLargura(),pedidoop.getMetragem(),null};
+            modelo.addRow(line);
+
+            //adicionando novos pedidos a lista para inserir no banco de dados
+            insertList.add(pedidoop);
+       }
        
-        //adiciona na tabela
-       DefaultTableModel modelo = (DefaultTableModel) tab_pedidosOp.getModel();
-       Object[] line = {pedidoop.getId(),pedidoop.getNome_cliente(),pedidoop.getLargura(),pedidoop.getMetragem(),null};
-       modelo.addRow(line);
-       
-       //adicionando novos pedidos a lista para inserir no banco de dados
-       insertList.add(pedidoop);
     }
+    
+    
         //Lista que insere os pedidos da op no banco de dados
         List<PedidoOp> insertList = new ArrayList<>();
     
@@ -144,6 +152,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         box_largTecido = new javax.swing.JComboBox<>();
         field_espessura = new javax.swing.JTextField();
         label_espessura = new javax.swing.JLabel();
+        button_editPedOp = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerar ordem de produção");
@@ -295,6 +304,16 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
         label_espessura.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         label_espessura.setText("Espessura");
 
+        button_editPedOp.setBackground(new java.awt.Color(255, 255, 255));
+        button_editPedOp.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        button_editPedOp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/editar (2).png"))); // NOI18N
+        button_editPedOp.setText("Editar Pedido");
+        button_editPedOp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_editPedOpActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -356,7 +375,9 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                         .addContainerGap(18, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(button_addPedOp)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(button_editPedOp)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(button_removePedidoOp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button_confirm)
@@ -382,16 +403,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                     .addComponent(label_espessura))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(button_confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(button_addPedOp)
-                                .addComponent(button_removePedidoOp)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(box_category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -404,8 +416,16 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(label_sector)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(field_sector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(field_sector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(button_confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(button_addPedOp)
+                        .addComponent(button_removePedidoOp)
+                        .addComponent(button_editPedOp)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -546,6 +566,23 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     private void box_largTecidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box_largTecidoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_box_largTecidoActionPerformed
+    
+    private void button_editPedOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_editPedOpActionPerformed
+        int selectedRow = -1;
+        selectedRow = tab_pedidosOp.getSelectedRow();
+        
+        if(selectedRow >=0){
+            
+            CPedidoOpGUI window = new CPedidoOpGUI();
+            window.setVisible(true);
+            window.setLocationRelativeTo(null);
+            window.fillFields(selectedRow, true, String.valueOf(tab_pedidosOp.getValueAt(selectedRow, 0)), String.valueOf(tab_pedidosOp.getValueAt(selectedRow, 2)), String.valueOf(tab_pedidosOp.getValueAt(selectedRow, 3)),String.valueOf(tab_pedidosOp.getValueAt(selectedRow, 4)));
+            
+             
+        } else {
+            JOptionPane.showMessageDialog(null,"Selecione o pedido que deseja editar.");
+        }
+    }//GEN-LAST:event_button_editPedOpActionPerformed
 
     /**
      * @param args the command line arguments
@@ -567,6 +604,7 @@ public class CUOrdemProducaoGUI extends javax.swing.JFrame {
     private javax.swing.JButton button_addCategory;
     private javax.swing.JButton button_addPedOp;
     private javax.swing.JButton button_confirm;
+    private javax.swing.JButton button_editPedOp;
     private javax.swing.JButton button_removePedidoOp;
     private javax.swing.JButton button_return;
     private javax.swing.JTextField field_espessura;

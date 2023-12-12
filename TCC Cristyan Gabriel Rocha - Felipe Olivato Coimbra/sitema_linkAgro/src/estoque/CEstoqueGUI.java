@@ -120,7 +120,6 @@ public class CEstoqueGUI extends javax.swing.JFrame {
             }
         });
         tab_estoque.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tab_estoque.setSelectionBackground(new java.awt.Color(0, 102, 102));
         tab_estoque.setSelectionForeground(new java.awt.Color(51, 51, 51));
         jScrollPane5.setViewportView(tab_estoque);
 

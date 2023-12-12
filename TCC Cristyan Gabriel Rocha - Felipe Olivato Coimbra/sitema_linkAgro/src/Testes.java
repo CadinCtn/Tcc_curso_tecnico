@@ -1,33 +1,70 @@
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import javax.swing.JPanel;
+public class Testes extends JFrame {
+    private JTable table;
 
+    public Testes() {
+        setTitle("Selecionar Linha por Idade");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-class Testes extends JPanel {
-    
-    
-    public Testes(){
-        this.setFocusable(true);
-        this.setBackground(Color.white);
+        // Cria um modelo de tabela simples com dados de exemplo
+        DefaultTableModel model = new DefaultTableModel(
+                new Object[][]{
+                        {"1", "John Doe", "30"},
+                        {"2", "Jane Doe", "25"},
+                        {"3", "Bob Smith", "40"},
+                        {"4", "Alice Johnson", "35"}
+                },
+                new String[]{"ID", "Nome", "Idade"}
+        );
+
+        // Cria a tabela com o modelo
+        table = new JTable(model);
+
         
         
+        
+        
+        
+        // Seleciona automaticamente a linha com idade superior a 37
+        selecionarLinhaPorIdade(25);
+
+        
+        // Adiciona a tabela a um painel de rolagem e adiciona o painel ao quadro
+        JScrollPane scrollPane = new JScrollPane(table);
+        add(scrollPane);
+
+        setSize(400, 300);
+        setLocationRelativeTo(null);
     }
 
-   /* 
-    public void paint(Graphics g){
-        super.paint(g);
-        g.drawString("Teste", 20, 20);
-    }
-    */
-    
-    public void desenharRetangulo(int x, int y, int largura, int comprimeto){
-        Graphics2D g2d = (Graphics2D) this.getGraphics();
+    private void selecionarLinhaPorIdade(int id) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
         
-        //desenhando formas
-        g2d.drawRect(x, y, largura, comprimeto);
-        
+        for (int i = 0; i < model.getRowCount(); i++) {
+            int idade = Integer.parseInt((String) model.getValueAt(i, 2)); // Coluna de idade
+
+            if (idade == id) {
+                table.getSelectionModel().setSelectionInterval(i, i);
+                break;
+            }
+        }
     }
+
     
+    
+    
+    
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new Testes().setVisible(true);
+            }
+        });
+    }
 }

@@ -82,12 +82,12 @@ public class PedidoDAO {
                     JOptionPane.showMessageDialog(paneJOP, "Preencha todos os campos de cadastro!", "ERRO!", JOptionPane.WARNING_MESSAGE);
                 } else {      
 
-                    //Convertendo java.util para java.sql em no formato Date
+                    
                         //Formato da data
                         SimpleDateFormat dateForm = new SimpleDateFormat("dd/MM/yyyy");
        
                         //Fechamento
-                        java.util.Date fechUtil = fechamentoDate.getDate(); //Pegando o valor registrado no JDateChooser e colocando em uma variável do tipo util.Date
+                        java.util.Date fechUtil = fechamentoDate.getDate(); //Pegando o valor registrado no JDateChooser e colocando em uma variável String
                         String fech = dateForm.format(fechUtil);                                
                         
                         //Embarque

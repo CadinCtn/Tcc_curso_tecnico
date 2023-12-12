@@ -145,7 +145,23 @@ public class PedidoOpDAO {
         return pedidoopList;
     }
     
-    
+    public void updatePedidoOp(PedidoOp pedidoop, int cod){
+        
+        String sql = "UPDATE pedidos_op SET id = ?, nome_cliente = ?, largura = ?, metragem = ? WHERE vinc = " + cod;
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, pedidoop.getId());
+            stmt.setString(2, pedidoop.getNome_cliente());
+            stmt.setFloat(3,pedidoop.getLargura());
+            stmt.setFloat(4, pedidoop.getMetragem());
+            stmt.execute();
+            stmt.close();
+            
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
     
    
 }
