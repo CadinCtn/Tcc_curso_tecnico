@@ -30,7 +30,7 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         
         try{
             List<Produto> produtoList = produtodao.categoriaBox(); 
-            
+                box_category.addItem(null);
             for(Produto produto : produtoList){
                 box_category.addItem(produto.getProduto()); 
             }
@@ -65,6 +65,62 @@ public class CEstoqueGUI extends javax.swing.JFrame {
             modelo.addRow(line);
         }
         
+    }
+    
+    
+    public void filtro(){
+        // Aplicando filtro
+           EstoqueDAO estoquedao = new EstoqueDAO();
+           DefaultTableModel modelo = (DefaultTableModel) tab_estoque.getModel();
+
+           ////
+           //limpando a tabela
+           while(tab_estoque.getModel().getRowCount() > 0 ){
+               ((DefaultTableModel) tab_estoque.getModel()).removeRow(0);
+           }
+           ////
+           
+           
+           String categoria = String.valueOf(box_category.getSelectedItem());
+           String lonas = String.valueOf(box_lona.getSelectedItem());
+           String largura = largField.getText();
+           String metragem = metField.getText();
+           
+           if(box_category.getSelectedItem() == null){
+            categoria = " ";
+            
+            } else {
+                System.out.println(categoria);
+                categoria = " categoria = '" + categoria + "' and";
+            }
+            //lonas
+            if(box_lona.getSelectedItem() == null){
+
+                lonas = "> 0";
+            } else {
+                System.out.println(lonas);
+                lonas = "= " + lonas;
+            }
+            //largura
+            if(largura.isEmpty()){
+                largura = "0";
+            }
+            //metragem
+            if(metragem.isEmpty()){
+                metragem = "0";
+            }
+           
+           
+           // Função que retorna uma lista com os objetos após aplicar o filtro
+           List<Estoque> estoqueList = estoquedao.buscaEstoque(categoria, lonas,largura,metragem);
+           
+           //Inserindo itens na tabela
+           for (Estoque estoque : estoqueList) {
+
+               Object[] line = {estoque.getId(), estoque.getCategoria(), estoque.getLonas(), estoque.getLargura(), estoque.getMetragem()};
+               modelo.addRow(line);
+            
+        }
     }
     
     
@@ -176,7 +232,30 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Filtros:");
 
-        box_lona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5", "6", "8", "10" }));
+        largField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                largFieldActionPerformed(evt);
+            }
+        });
+
+        metField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                metFieldActionPerformed(evt);
+            }
+        });
+
+        box_category.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                box_categoryActionPerformed(evt);
+            }
+        });
+
+        box_lona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { null,"2", "3", "4", "5", "6", "8", "10" }));
+        box_lona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                box_lonaActionPerformed(evt);
+            }
+        });
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Categoria");
@@ -355,42 +434,24 @@ public class CEstoqueGUI extends javax.swing.JFrame {
 
     // filtar estoque
     private void busca_estActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busca_estActionPerformed
-        
-        if((largField.getText()).isEmpty() || (metField.getText()).isEmpty()){
-           //buscar sem filtro
-            tabela();
-        } else {
-            // Aplicando filtro
-           EstoqueDAO estoquedao = new EstoqueDAO();
-           DefaultTableModel modelo = (DefaultTableModel) tab_estoque.getModel();
-
-           ////
-           //limpando a tabela
-           while(tab_estoque.getModel().getRowCount() > 0 ){
-               ((DefaultTableModel) tab_estoque.getModel()).removeRow(0);
-           }
-           ////
-           
-           Estoque est = new Estoque();
-           est.setCategoria(String.valueOf(box_category.getSelectedItem()));
-           est.setLonas(Integer.valueOf(String.valueOf(box_lona.getSelectedItem())));
-           
-           // Função que retorna uma lista com os objetos após aplicar o filtro
-           List<Estoque> estoqueList = estoquedao.buscaEstoque(est.getCategoria(), est.getLonas(),Float.parseFloat(largField.getText()),Float.parseFloat(metField.getText()));
-           
-           //Inserindo itens na tabela
-           for (Estoque estoque : estoqueList) {
-
-               Object[] line = {estoque.getId(), estoque.getCategoria(), estoque.getLonas(), estoque.getLargura(), estoque.getMetragem()};
-               modelo.addRow(line);
-            
-        }
-            
-            
-        }
-        
-        
+        filtro();
     }//GEN-LAST:event_busca_estActionPerformed
+
+    private void box_lonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box_lonaActionPerformed
+        filtro();
+    }//GEN-LAST:event_box_lonaActionPerformed
+
+    private void box_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box_categoryActionPerformed
+        filtro();
+    }//GEN-LAST:event_box_categoryActionPerformed
+
+    private void largFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_largFieldActionPerformed
+        filtro();
+    }//GEN-LAST:event_largFieldActionPerformed
+
+    private void metFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_metFieldActionPerformed
+        filtro();
+    }//GEN-LAST:event_metFieldActionPerformed
 
     /**
      * @param args the command line arguments

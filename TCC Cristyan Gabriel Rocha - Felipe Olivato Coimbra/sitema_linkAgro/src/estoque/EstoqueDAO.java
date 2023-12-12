@@ -235,13 +235,17 @@ public class EstoqueDAO {
     
     
     //Metodo para filtrar a tabela
-    public List<Estoque> buscaEstoque(String categoria, int lonas, float largura, float metragem){
-        String sql = "SELECT * FROM estoque WHERE categoria = '" + categoria + "' and lonas = " + lonas + " and largura >= " + largura + " and metragem >= " + metragem;
-        
+    public List<Estoque> buscaEstoque(String categoria, String lonas, String largura, String metragem){
         List<Estoque> estoqueFiltList = new ArrayList();
         
+        
+        
+        String sql = "SELECT * FROM estoque WHERE " + categoria +" lonas " + lonas + " and largura >= " + largura + " and metragem >= " + metragem;
+        System.out.println(sql);
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
+            
+            
             ResultSet rs = stmt.executeQuery();
             
             while(rs.next()){
