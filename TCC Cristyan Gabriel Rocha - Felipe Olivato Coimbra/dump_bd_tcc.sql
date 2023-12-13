@@ -33,7 +33,7 @@ CREATE TABLE `estoque` (
   PRIMARY KEY (`id`),
   KEY `categoria` (`categoria`),
   CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`categoria`) REFERENCES `produtos` (`produto`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `estoque` (
 
 LOCK TABLES `estoque` WRITE;
 /*!40000 ALTER TABLE `estoque` DISABLE KEYS */;
-INSERT INTO `estoque` VALUES (1,'Agrothor',2,20.00,100.00),(2,'Primethor',3,5.00,50.00),(3,'Agropem',5,12.00,20.00),(4,'Agropem',5,6.00,20.00);
+INSERT INTO `estoque` VALUES (1,'Agrothor',2,2.00,2.00),(2,'Agrothor',4,20.00,100.00),(3,'Agropem',3,5.00,25.00),(4,'Agropem',3,10.00,40.00),(5,'Primethor',2,24.00,37.90),(6,'Primethor',4,2.50,30.00);
 /*!40000 ALTER TABLE `estoque` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +67,7 @@ CREATE TABLE `ordem_producao` (
   PRIMARY KEY (`id`),
   KEY `categoria` (`categoria`),
   CONSTRAINT `ordem_producao_ibfk_1` FOREIGN KEY (`categoria`) REFERENCES `produtos` (`produto`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,7 +76,7 @@ CREATE TABLE `ordem_producao` (
 
 LOCK TABLES `ordem_producao` WRITE;
 /*!40000 ALTER TABLE `ordem_producao` DISABLE KEYS */;
-INSERT INTO `ordem_producao` VALUES (1,'Agrothor',100,20.00,40.00,3,'','Teste','2x1.2+1',2.00);
+INSERT INTO `ordem_producao` VALUES (1,'Agropem',90,16.00,150.00,2,'Calandra','','2',2.50),(2,'Agrothor',100,20.00,100.00,5,'Calandra','','1.4',2.00);
 /*!40000 ALTER TABLE `ordem_producao` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +103,7 @@ CREATE TABLE `pedidos` (
 
 LOCK TABLES `pedidos` WRITE;
 /*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
-INSERT INTO `pedidos` VALUES (2308,'Cocamar','01/12/2023','13/12/2023','');
+INSERT INTO `pedidos` VALUES (2307,'Belagricola','01/12/2023','13/12/2023',''),(2319,'Cocamar','12/12/2023','15/12/2023','Urgente');
 /*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,7 +135,7 @@ CREATE TABLE `pedidos_op` (
 
 LOCK TABLES `pedidos_op` WRITE;
 /*!40000 ALTER TABLE `pedidos_op` DISABLE KEYS */;
-INSERT INTO `pedidos_op` VALUES (1,2308,'Cocamar',18.00,40.00,1);
+INSERT INTO `pedidos_op` VALUES (1,2319,'Cocamar',16.00,100.00,1);
 /*!40000 ALTER TABLE `pedidos_op` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,6 +148,7 @@ DROP TABLE IF EXISTS `produtos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `produtos` (
   `produto` varchar(50) NOT NULL,
+  `cor_produto` varchar(500) NOT NULL,
   PRIMARY KEY (`produto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -158,7 +159,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES ('Agropem'),('Agrothor'),('Primethor'),('teste');
+INSERT INTO `produtos` VALUES ('Agropem','java.awt.Color[r=255,g=153,b=0]'),('Agrothor','java.awt.Color[r=0,g=204,b=51]'),('Primethor','java.awt.Color[r=255,g=0,b=51]'),('Teste','java.awt.Color[r=0,g=0,b=0]');
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,7 +176,7 @@ CREATE TABLE `usuarios` (
   `senha` varchar(15) NOT NULL,
   `permissao` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +185,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'cris','2404','ADM'),(3,'Felipe','1234',NULL);
+INSERT INTO `usuarios` VALUES (1,'cris','2404','ADM'),(2,'Felipe','1234',NULL);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -197,4 +198,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-11 10:12:51
+-- Dump completed on 2023-12-13  1:22:15

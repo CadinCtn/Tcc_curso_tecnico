@@ -198,8 +198,9 @@ public class ProdutoDAO {
             } else {
                 return null;
             }
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             // Trata erro de formatação
+            e.printStackTrace();
             System.out.println("Deu não");
             return null;
         }
