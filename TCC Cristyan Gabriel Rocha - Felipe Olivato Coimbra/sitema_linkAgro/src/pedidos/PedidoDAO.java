@@ -152,6 +152,7 @@ public class PedidoDAO {
             stmt.close();
         }
         catch(SQLException e){
+            JOptionPane.showMessageDialog(null,"Não foi possivel deletar o pedido, existe uma ordem de produção para esse produto!");
             throw new RuntimeException(e);
         }
         
@@ -160,19 +161,26 @@ public class PedidoDAO {
     
     //Atualizando Pedido
     public void updatePedido(Pedido pedido, int id){
-        
-        String sql = "UPDATE pedidos SET id = ?, nome_cliente = ?, data_fechamento = ?, data_embarque = ?, observacao = ? WHERE id = " + id;
+        String sqlIns = "INSERT INTO pedidos(id,nome_cliente,data_fechamento,data_embarque,observacao)VALUES(?, ?, ?, ?, ?)";
+        String sqlDel = "DELETE FROM pedidos WHERE id = ?";
         
         try{
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sqlIns);
             stmt.setInt(1, pedido.getId());
             stmt.setString(2,pedido.getNomeCliente());
             stmt.setString(3,pedido.getFechamento());
             stmt.setString(4,pedido.getEmbarque());
             stmt.setString(5, pedido.getObservacao());
-            
             stmt.execute();
             stmt.close();
+            
+            updateAllPedidoOp(pedido, id);
+            
+            stmt = connection.prepareStatement(sqlDel);
+            stmt.setInt(1, id);
+            stmt.execute();
+            stmt.close();
+            
         }
         catch(SQLException e){
             throw new RuntimeException(e);
@@ -180,6 +188,21 @@ public class PedidoDAO {
         
     }
     
+    //Método para atualizar pedidos na tabela pedidos_op
+    public void updateAllPedidoOp(Pedido pedido, int id){
+        String sql = "UPDATE pedidos_op SET id = ?, nome_cliente = ? WHERE id = " + id;
+        
+        try{
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, pedido.getId());
+            stmt.setString(2,pedido.getNomeCliente());
+            stmt.execute();
+            stmt.close();
+            
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
     
     
     
