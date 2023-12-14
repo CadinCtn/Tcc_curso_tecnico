@@ -4,8 +4,15 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import menus.MenuGUI;
+import ordem_producao.ControllerOP;
+import ordem_producao.ROrdemProducaoGUI;
+import pedidos.CPedidosGUI;
 import produtos.Produto;
 import produtos.ProdutoDAO;
+import produtos.ProdutosGUI;
+import usuarios.CUsuarioGUI;
+import usuarios.Controller;
+import usuarios.LoginGUI;
 
 
 /**
@@ -151,6 +158,13 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        submenu_users = new javax.swing.JMenu();
+        submenu_newop = new javax.swing.JMenuItem();
+        submenu_newproduct = new javax.swing.JMenuItem();
+        submenu_estoque = new javax.swing.JMenuItem();
+        submenu_pedidos = new javax.swing.JMenuItem();
+        submenu_user = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Estoque Correias");
@@ -321,7 +335,7 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(18, 18, 18)
                 .addComponent(btn_voltar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -343,9 +357,62 @@ public class CEstoqueGUI extends javax.swing.JFrame {
                     .addComponent(box_lona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(5, 5, 5)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        submenu_users.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_plus.png"))); // NOI18N
+        submenu_users.setText("Menu");
+        submenu_users.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+
+        submenu_newop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_clipboard.png"))); // NOI18N
+        submenu_newop.setText("Ordem de produção");
+        submenu_newop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_newopActionPerformed(evt);
+            }
+        });
+        submenu_users.add(submenu_newop);
+
+        submenu_newproduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icon_belt.png"))); // NOI18N
+        submenu_newproduct.setText("Produtos");
+        submenu_newproduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_newproductActionPerformed(evt);
+            }
+        });
+        submenu_users.add(submenu_newproduct);
+
+        submenu_estoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/estoque.png"))); // NOI18N
+        submenu_estoque.setText("Estoque Correias");
+        submenu_estoque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_estoqueActionPerformed(evt);
+            }
+        });
+        submenu_users.add(submenu_estoque);
+
+        submenu_pedidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pedidos.png"))); // NOI18N
+        submenu_pedidos.setText("Pedidos");
+        submenu_pedidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_pedidosActionPerformed(evt);
+            }
+        });
+        submenu_users.add(submenu_pedidos);
+
+        submenu_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/adicionar-usuario.png"))); // NOI18N
+        submenu_user.setText("Usuarios");
+        submenu_user.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submenu_userActionPerformed(evt);
+            }
+        });
+        submenu_users.add(submenu_user);
+
+        jMenuBar1.add(submenu_users);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -454,6 +521,51 @@ public class CEstoqueGUI extends javax.swing.JFrame {
         filtro();
     }//GEN-LAST:event_metFieldActionPerformed
 
+    private void submenu_newopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newopActionPerformed
+
+        ROrdemProducaoGUI window = new ROrdemProducaoGUI();
+        window.setVisible(true);
+        window.setExtendedState(MAXIMIZED_BOTH);
+        ControllerOP.setrOrdemProducaoGUI(window);
+        dispose();
+    }//GEN-LAST:event_submenu_newopActionPerformed
+
+    private void submenu_newproductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_newproductActionPerformed
+        ProdutosGUI window = new ProdutosGUI();
+        window.setVisible(true);
+        window.setLocationRelativeTo(null);
+        Produto.setProdutosgui(window);
+    }//GEN-LAST:event_submenu_newproductActionPerformed
+
+    private void submenu_estoqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_estoqueActionPerformed
+        CEstoqueGUI window = new CEstoqueGUI();
+        window.setVisible(true);
+        window.setExtendedState(MAXIMIZED_BOTH);
+        dispose();
+    }//GEN-LAST:event_submenu_estoqueActionPerformed
+
+    private void submenu_pedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_pedidosActionPerformed
+
+        CPedidosGUI cpedidosgui = new CPedidosGUI();
+        cpedidosgui.setVisible(true);
+        cpedidosgui.setExtendedState(MAXIMIZED_BOTH);
+        dispose();
+    }//GEN-LAST:event_submenu_pedidosActionPerformed
+
+    private void submenu_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submenu_userActionPerformed
+
+        LoginGUI logingui = Controller.getLogingui();
+
+        if(logingui.permissao){
+            CUsuarioGUI window = new CUsuarioGUI();
+            window.setVisible(true);
+            window.setLocationRelativeTo(null);
+            Controller.setcUsuarioGUI(window);
+        } else {
+            JOptionPane.showMessageDialog(null,"Acesso negado","AVISO!",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_submenu_userActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -502,10 +614,17 @@ public class CEstoqueGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextField largField;
     private javax.swing.JTextField metField;
+    private javax.swing.JMenuItem submenu_estoque;
+    private javax.swing.JMenuItem submenu_newop;
+    private javax.swing.JMenuItem submenu_newproduct;
+    private javax.swing.JMenuItem submenu_pedidos;
+    private javax.swing.JMenuItem submenu_user;
+    private javax.swing.JMenu submenu_users;
     private javax.swing.JTable tab_estoque;
     private javax.swing.JButton upd_estoque;
     // End of variables declaration//GEN-END:variables

@@ -4,7 +4,6 @@ import estoque.CEstoqueGUI;
 import ordem_producao.ROrdemProducaoGUI;
 import ordem_producao.ControllerOP;
 import produtos.ProdutosGUI;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import pedidos.CPedidosGUI;
 import produtos.Produto;

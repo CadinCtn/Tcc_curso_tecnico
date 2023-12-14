@@ -7,6 +7,7 @@ package pedidos;
 
 import com.toedter.calendar.JDateChooser;
 import factory.ConnectionFactory;
+import java.awt.Dimension;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Connection;
@@ -19,6 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -49,8 +53,9 @@ public class PedidoDAO {
         JTextField nomeField = new JTextField(10);
         JDateChooser fechamentoDate = new JDateChooser();
         JDateChooser embarqueDate = new JDateChooser();
+        fechamentoDate.setPreferredSize(new Dimension(150, 19));
+        embarqueDate.setPreferredSize(new Dimension(150, 19));
         JTextField obsField = new JTextField(20);
-        
         
         //Adicionando elementos ao painel
         paneJOP.add(new JLabel("ID: "));
@@ -69,6 +74,22 @@ public class PedidoDAO {
         idField.setText(id);
         nomeField.setText(nomeCliente);
         
+        
+        //Formato da data
+        SimpleDateFormat dateForm = new SimpleDateFormat("dd/MM/yyyy");
+        
+        try {
+            Date fech = dateForm.parse(fechamento);
+            fechamentoDate.setDate(fech);
+            
+            Date emba = dateForm.parse(embarque);
+            embarqueDate.setDate(emba);
+            
+        
+        } catch (Exception ex) {
+            Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         obsField.setText(obs);
         
        
@@ -77,23 +98,28 @@ public class PedidoDAO {
             case JOptionPane.OK_OPTION : 
                 
                 //if para impedir que seja cadastrado como null
-                if (idField.getText().isEmpty() || nomeField.getText().isEmpty() || fechamentoDate.getDateFormatString().isEmpty() || embarqueDate.getDateFormatString().isEmpty()) {
+                if (idField.getText().isEmpty() || nomeField.getText().isEmpty()) {
                     //JOptionPane de alerta
                     JOptionPane.showMessageDialog(paneJOP, "Preencha todos os campos de cadastro!", "ERRO!", JOptionPane.WARNING_MESSAGE);
-                } else {      
+                } else {    
+                    
+                    String fech = null;
+                    String emba = null;
+                    
+                        try{
+                            //Fechamento
+                            java.util.Date fechUtil = fechamentoDate.getDate(); //Pegando o valor registrado no JDateChooser e colocando em uma variável String
+                            fech = dateForm.format(fechUtil);                                
 
+                            //Embarque
+                            java.util.Date embaUtil = embarqueDate.getDate();
+                            emba = dateForm.format(embaUtil);
                     
-                        //Formato da data
-                        SimpleDateFormat dateForm = new SimpleDateFormat("dd/MM/yyyy");
-       
-                        //Fechamento
-                        java.util.Date fechUtil = fechamentoDate.getDate(); //Pegando o valor registrado no JDateChooser e colocando em uma variável String
-                        String fech = dateForm.format(fechUtil);                                
+                        } catch(NullPointerException e){
+                            JOptionPane.showMessageDialog(null, "Formato de data inserido não é válido","Formato de data Inválido",JOptionPane.WARNING_MESSAGE);
+                            return null;
+                        }
                         
-                        //Embarque
-                        java.util.Date embaUtil = embarqueDate.getDate();
-                        String emba = dateForm.format(embaUtil);
-                    
                     //Criando objeto ana classe modelo
                     pedido.setId(Integer.valueOf(idField.getText()));
                     pedido.setNomeCliente(nomeField.getText());
@@ -152,7 +178,7 @@ public class PedidoDAO {
             stmt.close();
         }
         catch(SQLException e){
-            JOptionPane.showMessageDialog(null,"Não foi possivel deletar o pedido, existe uma ordem de produção para esse produto!");
+            JOptionPane.showMessageDialog(null,"Não foi possivel deletar o pedido, existe uma ordem de produção para esse pedido!");
             throw new RuntimeException(e);
         }
         
@@ -161,29 +187,26 @@ public class PedidoDAO {
     
     //Atualizando Pedido
     public void updatePedido(Pedido pedido, int id){
-        String sqlIns = "INSERT INTO pedidos(id,nome_cliente,data_fechamento,data_embarque,observacao)VALUES(?, ?, ?, ?, ?)";
-        String sqlDel = "DELETE FROM pedidos WHERE id = ?";
+        String sql = "UPDATE pedidos SET id = ?, nome_cliente = ?, data_fechamento = ?, data_embarque = ?, observacao = ? WHERE id = " + id;
         
         try{
-            PreparedStatement stmt = connection.prepareStatement(sqlIns);
+            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, pedido.getId());
             stmt.setString(2,pedido.getNomeCliente());
             stmt.setString(3,pedido.getFechamento());
             stmt.setString(4,pedido.getEmbarque());
             stmt.setString(5, pedido.getObservacao());
-            stmt.execute();
-            stmt.close();
             
+            stmt.execute();
             updateAllPedidoOp(pedido, id);
             
-            stmt = connection.prepareStatement(sqlDel);
-            stmt.setInt(1, id);
-            stmt.execute();
             stmt.close();
-            
         }
         catch(SQLException e){
-            throw new RuntimeException(e);
+            insertPedido(pedido);
+            updateAllPedidoOp(pedido, id);
+            deletePedido(id);
+            e.printStackTrace();
         }
         
     }
